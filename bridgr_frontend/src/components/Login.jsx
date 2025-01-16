@@ -6,9 +6,15 @@ import { jwtDecode } from "jwt-decode";
 import shareVideo from "../assets/share.mp4";
 import logo from "../assets/logoWhite.png";
 
+import { client } from "../client.js";
+
 function Login() {
+  const navigate = useNavigate();
   const responseGoogle = (response) => {
-    localStorage.setItem("user", JSON.stringify(response.profileObj));
+    localStorage.setItem(
+      "user",
+      JSON.stringify(response.credential)
+    );
     var decodedHeader = jwtDecode(response.credential);
     console.log(decodedHeader);
 
@@ -21,9 +27,9 @@ function Login() {
       image: picture,
     };
 
-    // client.createIfNotExists(doc).then(() => {
-    //   navigate("/", { replace: true });
-    // });
+    client.createIfNotExists(doc).then(() => {
+      navigate("/", { replace: true });
+    });
   };
 
   return (
